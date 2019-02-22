@@ -5,7 +5,7 @@ const Cors = require("cors");
 const express = require("express");
 const fileUpload = require('./fileUpload');
 
-const api = express().use(Cors({ origin: true }));
+const uploadApi = express().use(Cors({ origin: true }));
 fileUpload("/upload", api);
 
 admin.initializeApp(functions.config().firebase);
@@ -24,7 +24,7 @@ api.post("/upload", function (req, response, next) {
     });
 });
 
-exports.api = functions.https.onRequest(api);
+exports.uploadApi = functions.https.onRequest(api);
 
 const uploadImageToStorage = (file, contentType) => {
     const storage = admin.storage();
