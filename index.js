@@ -6,11 +6,11 @@ const express = require("express");
 const fileUpload = require('./fileUpload');
 
 const uploadApi = express().use(Cors({ origin: true }));
-fileUpload("/upload", api);
+fileUpload("/upload", uploadApi);
 
 admin.initializeApp(functions.config().firebase);
 
-api.post("/upload", function (req, response, next) {
+uploadApi.post("/upload", function (req, response, next) {
 	const contentType = req.query.type;
     uploadImageToStorage(req.files.file[0], contentType)
     .then(metadata => {
@@ -24,7 +24,7 @@ api.post("/upload", function (req, response, next) {
     });
 });
 
-exports.uploadApi = functions.https.onRequest(api);
+exports.uploadApi = functions.https.onRequest(uploadApi);
 
 const uploadImageToStorage = (file, contentType) => {
     const storage = admin.storage();
